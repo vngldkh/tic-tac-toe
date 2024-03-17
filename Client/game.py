@@ -2,7 +2,7 @@ from time import sleep
 
 import requests
 
-from common import URL
+from common import URL, DISCONNECTED
 
 
 class Game:
@@ -69,7 +69,7 @@ class Game:
         print('Waiting for the game to start...')
         ret = self.wait_for_update(check_finished=True)
         if ret == Game.Response.DISCONNECTED:
-            print('Disconnected')
+            print(DISCONNECTED)
             return Game.Response.DISCONNECTED
 
         print('Game started!')
@@ -85,7 +85,7 @@ class Game:
             print('Waiting for opponent\'s turn...')
             res = self.wait_for_update()
             if res == Game.Response.DISCONNECTED:
-                print('Disconnected')
+                print(DISCONNECTED)
                 return Game.Response.DISCONNECTED
             self.display_board()
         finished: bool = False
@@ -104,7 +104,7 @@ class Game:
 
             r = requests.post(f'{URL}/turn', params={'token': self.token, 'x': x, 'y': y})
             if r.status_code == 404:
-                print('Disconnected')
+                print(DISCONNECTED)
                 return Game.Response.DISCONNECTED
 
             if r.status_code > 204:
@@ -121,7 +121,7 @@ class Game:
             print('Waiting for opponent\'s turn...')
             res = self.wait_for_update()
             if res == Game.Response.DISCONNECTED:
-                print('Disconnected')
+                print(DISCONNECTED)
                 return Game.Response.DISCONNECTED
             self.display_board()
 
