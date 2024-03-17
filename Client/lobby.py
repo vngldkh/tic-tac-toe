@@ -24,7 +24,10 @@ def select_lobby() -> str | None:
 def join_lobby(selected_lobby: str) -> str | None:
     # Enter nickname
     print('Enter nickname or "quit" to return to main menu')
-    nickname = input('>>> ')
+    nickname = ""
+    while nickname == "":
+        nickname = input('>>> ')
+
     if nickname == 'quit':
         return None
 
