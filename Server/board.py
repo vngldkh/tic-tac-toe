@@ -28,22 +28,20 @@ class Board:
         return Board.Response.OK
 
     def check(self, player) -> bool:
-        horizontal = True
-        vertical = True
+        major_diagonal = True
+        minor_diagonal = True
         for i in range(3):
+            horizontal = True
+            vertical = True
             for j in range(3):
-                horizontal = self.__board[i][j] == player
-                vertical = self.__board[j][i] == player
+                horizontal &= self.__board[i][j] == player
+                vertical &= self.__board[j][i] == player
                 if not horizontal and not vertical:
                     break
             if horizontal or vertical:
                 return True
-
-        major_diagonal = True
-        minor_diagonal = True
-        for i in range(3):
-            major_diagonal = self.__board[i][i] == player
-            minor_diagonal = self.__board[i][2 - i] == player
+            major_diagonal &= self.__board[i][i] == player
+            minor_diagonal &= self.__board[i][2 - i] == player
             if not major_diagonal and not minor_diagonal:
                 break
         if major_diagonal or minor_diagonal:
