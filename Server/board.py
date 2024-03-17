@@ -46,8 +46,6 @@ class Board:
                 return True
             major_diagonal &= self.__board[i][i] == player
             minor_diagonal &= self.__board[i][2 - i] == player
-            if not major_diagonal and not minor_diagonal:
-                break
         if major_diagonal or minor_diagonal:
             return True
         return False
