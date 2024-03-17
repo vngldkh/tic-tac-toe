@@ -1,2 +1,2 @@
-URL = 'http://0.0.0.0:8000'
+URL = 'http://server:35665'
 DISCONNECTED = 'Opponent is disconnected. Lobby is closed'

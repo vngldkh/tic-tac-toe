@@ -8,4 +8,4 @@ RUN pip install -r requirements.txt
 # copy every content from the local file to the image
 COPY . /app
 # configure the container to run in an executed manner
-ENTRYPOINT flask run -h 127.0.0.1 -p 8080
+ENTRYPOINT python app.py

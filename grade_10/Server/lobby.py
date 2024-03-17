@@ -5,7 +5,6 @@ from datetime import datetime
 from time import sleep
 
 from board import Board
-from manager import manager
 
 
 class Lobby:
@@ -21,6 +20,7 @@ class Lobby:
         self.id: str = "".join(random.choices(string.ascii_letters + string.digits, k=5))
         self.players = []
         self.current_board = None
+        self.score = [0, 0]
         self.last_request = []
         self.finished = False
         self.last_winner = None
@@ -67,7 +67,7 @@ class Lobby:
             case Board.Response.FINISHED:
                 threading.Thread(target=self.start_new_board).start()
                 if not self.current_board.draw:
-                    manager.inc_score(self.players[0], self.players[1], self.current_board.get_player())
+                    self.score[self.current_board.get_player()] += 1
                 self.finished = True
                 self.last_winner = self.current_board.get_player() if not self.current_board.draw else -1
                 return Lobby.Response.FINISHED

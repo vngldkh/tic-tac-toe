@@ -7,7 +7,7 @@ from flask import Flask, json, request
 from clean import clean_job
 from common import lobbies, HOST, PORT
 from lobby import Lobby
-from manager import manager
+from score import init_score
 
 clean_thread = threading.Thread(target=clean_job)
 clean_thread.start()
@@ -18,6 +18,7 @@ app = Flask(__name__)
 def create():
     lobby = Lobby()
     lobbies[lobby.id] = lobby
+    init_score(lobby.id)
     return {"lobby_id": lobby.id}
 
 
@@ -41,8 +42,6 @@ def join(lobby_id: str):
         return flask.Response(response='Player with the same name is already in the lobby', status=403)
     if ret == Lobby.Response.ALREADY_FULL:
         return flask.Response(response='Lobby is already full', status=403)
-    if len(lobby.players) == 2:
-        manager.insert_score(player1=lobby.players[0], player2=lobby.players[1])
 
     encoded_jwt = jwt.encode(
         {
@@ -100,7 +99,7 @@ def get_score():
         case _:
             result = None
     return {
-        "score": manager.get_score(lobby.players[0], lobby.players[1]),
+        "score": lobby.score,
         "result": result
     }
 
@@ -158,7 +157,7 @@ def take_turn():
             )
         case Lobby.Response.FINISHED:
             return flask.Response(
-                response=json.dumps(manager.get_score(lobby.players[0], lobby.players[1])),
+                response=json.dumps(lobby.score),
                 status=200
             )
 
