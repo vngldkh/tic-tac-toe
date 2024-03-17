@@ -66,9 +66,10 @@ class Lobby:
                 return Lobby.Response.OK
             case Board.Response.FINISHED:
                 threading.Thread(target=self.start_new_board).start()
-                self.score[self.current_board.get_player()] += 1
+                if not self.current_board.draw:
+                    self.score[self.current_board.get_player()] += 1
                 self.finished = True
-                self.last_winner = self.current_board.get_player()
+                self.last_winner = self.current_board.get_player() if not self.current_board.draw else -1
                 return Lobby.Response.FINISHED
             case Board.Response.TAKEN_CELL:
                 return Lobby.Response.TAKEN_CELL

@@ -129,6 +129,6 @@ class Game:
 
         r = requests.get(f'{URL}/score', params={'token': self.token})
         print('Game finished!')
-        print(f'Player {r.json()['last_winner']} won!')
+        print(r.json()["result"])
         print(f'Total score: {r.json()["score"]}')
         return Game.Response.OK

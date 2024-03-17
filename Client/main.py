@@ -26,6 +26,9 @@ if __name__ == '__main__':
             match x:
                 case 1:
                     r = requests.post(f'{URL}/lobbies/create')
+                    if r.status_code == 403:
+                        print('Server is not active')
+                        continue
                     lobby_id: str = r.json()["lobby_id"]
                     print(f'Lobby "{lobby_id}" created successfully')
                     token = join_lobby(lobby_id)

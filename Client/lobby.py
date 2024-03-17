@@ -6,6 +6,9 @@ from common import URL
 def select_lobby() -> str | None:
     # Print out list of lobbies
     r = requests.get(f'{URL}/lobbies')
+    if r.status_code != 200:
+        print('Server is not active')
+        return None
     lobbies: list = r.json()
     print(lobbies)
 

@@ -87,9 +87,19 @@ def get_score():
     token = request.args['token']
     info = jwt.decode(token, "secret", algorithms=["HS256"])
     lobby = lobbies[info["lobby_id"]]
+    result: str | None = None
+    match lobby.last_winner:
+        case 0:
+            result = f'Player {lobby.players[0]} won!'
+        case 1:
+            result = f'Player {lobby.players[1]} won!'
+        case -1:
+            result = f'Draw!'
+        case _:
+            result = None
     return {
         "score": lobby.score,
-        "last_winner": lobby.players[lobby.last_winner] if lobby.last_winner is not None else None
+        "result": result
     }
 
 
