@@ -32,9 +32,10 @@ def join(lobby_id: str):
     if nickname is None:
         return flask.Response(response='Nickname must not be empty', status=400)
 
+    if lobby_id not in lobbies:
+        return flask.Response(response='Lobby does not exist', status=404)
+
     lobby = lobbies[lobby_id]
-    if lobby is None:
-        return flask.Response(response='Lobby not found', status=404)
 
     ret = lobby.add_player(nickname)
     if ret == Lobby.Response.ALREADY_EXISTS:
