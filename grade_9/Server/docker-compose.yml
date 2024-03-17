@@ -1,0 +1,20 @@
+networks:
+  my-network:
+    external: false
+
+services:
+  server:
+    image: python:latest
+    hostname: server
+    ports:
+      - "35665:35665"
+    container_name: server
+    restart: unless-stopped
+    networks:
+      - my-network
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    logging:
+      options:
+        max-size: 50m
